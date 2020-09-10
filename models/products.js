@@ -32,3 +32,12 @@ const products = sequelize.define('products', {
   });
 
 module.exports = products;
+
+module.exports.created = (productID_, name_, unit_, price_) => {
+    products.create({
+        productID: productID_,
+        name: name_,
+        unit: unit_,
+        price: price_
+    });
+}

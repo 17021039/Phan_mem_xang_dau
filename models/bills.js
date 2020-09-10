@@ -12,19 +12,43 @@ const bills = sequelize.define('bills', {
     },
     driverID: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: 'drivers',
+            key: 'driverID',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     },
     clientID: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: 'clients',
+            key: 'clientID',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     },
-    stationID: {
+    gasStationID: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: 'gas_stations',
+            key: 'gasStationID',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     },
     productID: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: 'products',
+            key: 'productID',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     },
     quantity: {
         type: DataTypes.INTEGER.UNSIGNED,
@@ -53,4 +77,18 @@ const bills = sequelize.define('bills', {
     collate: 'utf8_unicode_520_ci',
   });
 
-  module.exports = bills;
+module.exports = bills;
+
+module.exports.created = (billID_, driverID_, clientID_, gasStationID_, productID_, quantity_, total_, transactionDate_, status_) => {
+    bills.create({
+        billID: billID_,
+        driverID: driverID_,
+        clientID: clientID_,
+        gasStationID: gasStationID_,
+        productID: productID_,
+        quantity: quantity_,
+        total: total_,
+        transactionDate: transactionDate_,
+        status: status_
+    });
+}

@@ -7,11 +7,23 @@ const creditDrivers = sequelize.define('creditDrivers', {
     // Model attributes are defined here
     driverID: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: 'drivers',
+            key: 'driverID',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     },
     contractID: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: 'contracts',
+            key: 'contractID',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     },
     creditLimit: {
         type: DataTypes.BIGINT(20).UNSIGNED,
@@ -31,4 +43,13 @@ const creditDrivers = sequelize.define('creditDrivers', {
     collate: 'utf8_unicode_520_ci',
   });
 
-  module.exports = creditDrivers;
+module.exports = creditDrivers;
+
+module.exports.created = (driverID_, contractID_, creditLimit_, creditRemain_) => {
+    creditDrivers.create({
+        driverID: driverID_,
+        contractID: contractID_,
+        creditLimit: creditLimit_,
+        creditRemain: creditRemain_
+    });
+}

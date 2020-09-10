@@ -12,7 +12,13 @@ const contracts = sequelize.define('contracts', {
     },
     clientID: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: 'clients',
+            key: 'clientID',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     },
     startDate: {
         type: DataTypes.DATEONLY,
@@ -35,4 +41,14 @@ const contracts = sequelize.define('contracts', {
     collate: 'utf8_unicode_520_ci',
   });
 
-  module.exports = contracts;
+module.exports = contracts;
+
+module.exports.created = (contractID_, clientID_, startDate_, endDate_, status_) => {
+    contracts.create({
+        contractID: contractID_,
+        clientID: clientID_,
+        startDate: startDate_,
+        endDate: endDate_,
+        status: status_
+    });
+}

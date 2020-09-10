@@ -3,16 +3,18 @@ const { sync } = require('../connect/connection.js');
 // database connect
 require('../connect/connection.js');
 
-const contracts = sequelize.define('contracts', {
+const gasStations = sequelize.define('gasStations', {
     // Model attributes are defined here
-    contractID: {
+    gasStationID: {
         type: DataTypes.STRING,
         primaryKey: true,
-        allowNull: false
-    },
-    loginID: {
-        type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: 'users',
+            key: 'userID',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     },
     name: {
         type: DataTypes.STRING,
@@ -32,10 +34,20 @@ const contracts = sequelize.define('contracts', {
     },
   }, {
     // Other model options go here
-    tableName: 'contracts',
+    tableName: 'gas_stations',
     timestamps: false,
     charset: 'utf8',
     collate: 'utf8_unicode_520_ci',
   });
 
-module.exports = contracts;
+module.exports = gasStations;
+
+module.exports.created = (gasStationID_, name_, address_, location_, workingTime_) => {
+    gasStations.create({
+        gasStationID: gasStationID_,
+        name: name_,
+        address: address_,
+        location: location_,
+        workingTime: workingTime_
+    });
+}

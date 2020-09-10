@@ -5,7 +5,7 @@ require('../connect/connection.js');
 
 const users = sequelize.define('users', {
     // Model attributes are defined here
-    loginID: {
+    userID: {
       type: DataTypes.STRING,
       primaryKey: true,
       allowNull: false,
@@ -20,7 +20,13 @@ const users = sequelize.define('users', {
     },
     roleID: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        references: {
+          model: 'roles',
+          key: 'roleID',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE'
     }
   }, {
     // Other model options go here
@@ -30,4 +36,13 @@ const users = sequelize.define('users', {
     collate: 'utf8_unicode_520_ci',
   });
 
-  module.exports = users;
+module.exports = users;
+
+module.exports.created = (userID_, username_, password_, roleID_) => {
+  users.create({
+    userID: userID_,
+    username: username_,
+    password: password_,
+    roleID: roleID_
+  });
+}

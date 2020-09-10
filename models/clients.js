@@ -8,11 +8,13 @@ const clients = sequelize.define('clients', {
     clientID: {
         type: DataTypes.STRING,
         primaryKey: true,
-        allowNull: false
-    },
-    loginID: {
-        type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: 'users',
+            key: 'userID',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     },
     name: {
         type: DataTypes.STRING,
@@ -24,6 +26,7 @@ const clients = sequelize.define('clients', {
     },
     taxID: {
         type: DataTypes.STRING,
+        primaryKey: true,
         allowNull: false
     },
     max_payment_limit: {
@@ -39,4 +42,15 @@ const clients = sequelize.define('clients', {
     collate: 'utf8_unicode_520_ci',
   });
 
-  module.exports = clients;
+module.exports = clients;
+
+// tạo clients
+module.exports.created = (clientID_, name_, address_, taxID_, max_payment_limit_) => {
+    clients.create({
+        clientID: clientID_,
+        name: name_,
+        address: address_,
+        taxID: taxID_,
+        max_payment_limit: max_payment_limit_
+    });
+}

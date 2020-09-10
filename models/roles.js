@@ -23,3 +23,10 @@ const roles = sequelize.define('roles', {
   });
 
 module.exports = roles;
+
+module.exports.created = (roleID_, permission_) => {
+  roles.create({
+    roleID: roleID_,
+    permission: permission_
+  });
+}

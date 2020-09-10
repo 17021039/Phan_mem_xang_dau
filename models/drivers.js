@@ -8,17 +8,29 @@ const drivers = sequelize.define('drivers', {
     driverID: {
         type: DataTypes.STRING,
         primaryKey: true,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: 'users',
+            key: 'userID',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     },
     clientID: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: 'clients',
+            key: 'clientID',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     },
-    loginID: {
+    name: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    name: {
+    residentID: {
         type: DataTypes.STRING,
         allowNull: false
     },
@@ -30,15 +42,15 @@ const drivers = sequelize.define('drivers', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    gmail: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
     address: {
         type: DataTypes.STRING,
         allowNull: false
     },
     plate: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    status: {
         type: DataTypes.STRING,
         allowNull: false
     }
@@ -50,4 +62,23 @@ const drivers = sequelize.define('drivers', {
     collate: 'utf8_unicode_520_ci',
   });
 
-  module.exports = drivers;
+module.exports = drivers;
+
+// tạo drivers
+module.exports.created = (driverID_, clientID_, name_, residentID_, avatar_, phone_, address_, plate_, status_) => {
+    drivers.create({
+        driverID: driverID_,
+        clientID: clientID_,
+        name: name_,
+        residentID: residentID_,
+        avatar: avatar_,
+        phone: phone_,
+        address: address_,
+        plate: plate_,
+        status: status_
+    });
+}
+
+
+// this.created('2','1','5','Nguyễn Văn B','avatar','0333452356',100000000,75486987,'29C-888.88')
+// (1,1,4,'Nguyễn Văn A','avatar','0324532567','gmail@gmail.com','address','75A-145.19')
