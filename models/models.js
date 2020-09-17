@@ -56,12 +56,12 @@ module.exports.clients = () => {
         onDelete: 'CASCADE'
     });
     Clients.hasMany(Contracts, {
-        foreignKey: { name: "contractID"},
+        foreignKey: { name: "clientID"},
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
     });
     Clients.hasMany(Drivers, {
-        foreignKey: { name: "driverID"},
+        foreignKey: { name: "clientID"},
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
     });
@@ -76,7 +76,7 @@ module.exports.clients = () => {
 // hàm tạo các quan hệ của contract và xuất contract
 module.exports.contracts = () => {
     Contracts.belongsTo(Clients, {
-        foreignKey: { name: "contractID"},
+        foreignKey: { name: "clientID"},
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
     });
@@ -127,7 +127,7 @@ module.exports.drivers = () => {
         onDelete: 'CASCADE'
     });
     Drivers.belongsTo(Clients, {
-        foreignKey: { name: "driverID"},
+        foreignKey: { name: "clientID"},
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
     });

@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes} = require('sequelize');
-const sequelize = require('../connect/connection.js');
+const sequelize = require('../../connect/connection.js');
 const { sync } = require('../../connect/connection.js');
 // database connect
 require('../../connect/connection.js');
@@ -54,7 +54,7 @@ module.exports.set = (user_ = {}) => {
   // CÁC HÀM LẤY CỦA USER
 
 // lấy tất cả user (tài khoản đăng nhập) theo yêu cầu
-module.exports.getUsers =  (filter = {}) => {
+module.exports.get =  (filter = {}) => {
   return Users.findAll({
     where: filter
   }).then(list => list.map(obj => obj.dataValues));

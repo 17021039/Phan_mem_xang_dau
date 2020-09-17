@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes} = require('sequelize');
-const sequelize = require('../connect/connection.js');
+const sequelize = require('../../connect/connection.js');
 const { sync } = require('../../connect/connection.js');
 // database connect
 require('../../connect/connection.js');
@@ -49,8 +49,8 @@ module.exports.created = (contractID_, clientID_, debtCeiling_, creditRemain_) =
 }
 
 // tạo creditContract bằng object
-module.exports.set = (creditClient_) => {
-    CreditContracts.create(creditClient_);
+module.exports.set = (creditContract_) => {
+    CreditContracts.create(creditContract_);
 }
 
         // CÁC HÀM LẤY CỦA CREDIT CLIENT
