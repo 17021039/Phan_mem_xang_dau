@@ -99,7 +99,7 @@ module.exports.contracts = () => {
     return Contracts;
 }
 
-// hàm tạo các quan hệ của credit clients và xuất credit clients
+// hàm tạo các quan hệ của credit contracts và xuất credit contracts
 module.exports.creditContracts = () => {
     CreditContracts.belongsTo(Clients, {
         foreignKey: { name: "clientID"},
