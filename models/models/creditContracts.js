@@ -38,7 +38,7 @@ const CreditContracts = sequelize.define('creditContracts', {
 
 module.exports = CreditContracts;
 
-// tạo creditClient
+// tạo creditContract
 module.exports.created = (contractID_, clientID_, debtCeiling_, creditRemain_) => {
     CreditContracts.create({
         contractID: contractID_,
@@ -48,14 +48,14 @@ module.exports.created = (contractID_, clientID_, debtCeiling_, creditRemain_) =
     });
 }
 
-// tạo creditClient bằng object
+// tạo creditContract bằng object
 module.exports.set = (creditClient_) => {
     CreditContracts.create(creditClient_);
 }
 
         // CÁC HÀM LẤY CỦA CREDIT CLIENT
 
-// lấy credit client theo yêu cầu
+// lấy credit contract theo yêu cầu
 module.exports.get = (filter = {}) => {
     return CreditContracts.findAll({
         where: filter
