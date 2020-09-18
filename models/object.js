@@ -1,3 +1,5 @@
+const { model } = require("../connect/connection");
+const { transports } = require("./models");
 
 // xuất object bill
 module.exports.bill = (billID_, driverID_, clientID_, plate_, gasStationID_, productID_, quantity_, total_, transactionDate_, status_) => {
@@ -27,10 +29,11 @@ module.exports.client = (clientID_, name_, address_, taxID_, max_payment_limit_)
 }
 
 // xuất object grossContract
-module.exports.grossContract = (grossContractID_, clientID_, signedDate_, startDate_, expiredDate_, debtCeiling_, status_) => {
+module.exports.grossContract = (grossContractID_, clientID_, name_, signedDate_, startDate_, expiredDate_, debtCeiling_, status_) => {
     let grossContract = {};
     grossContract.grossContractID = grossContractID_;
     grossContract.clientID = clientID_;
+    grossContract.name = name_;
     grossContract.signedDate = signedDate_;
     grossContract.startDate = startDate_;
     grossContract.expiredDate = expiredDate_;
@@ -40,10 +43,11 @@ module.exports.grossContract = (grossContractID_, clientID_, signedDate_, startD
 }
 
 // xuất object subcontract
-module.exports.subcontract = (subcontractID_ , grossContractID_, createdDate_, startDate_, expiredDate_, debtCeiling_, creditRemain_, status_) => {
+module.exports.subcontract = (subcontractID_ , grossContractID_, name_, createdDate_, startDate_, expiredDate_, debtCeiling_, creditRemain_, status_) => {
     let subcontract = {};
     subcontract.subontractID = subcontractID_;
     subcontract.grossContractID = grossContractID_;
+    subcontract.name = name_;
     subcontract.signedDate = createdDate_;
     subcontract.startDate = startDate_;
     subcontract.expiredDate = expiredDate_;
@@ -115,4 +119,15 @@ module.exports.user = (userID_, username_, password_, roleID_) => {
     user.password = password_;
     user.roleID = roleID_;
     return user;
+}
+
+// xuất object transport
+module.exports.transport = (plate_, name_, type_, image_, maxQuantity_) => {
+    let transport = {};
+    transport.plate = plate_;
+    transport.name = name_;
+    transport.type = type_;
+    transport.image = image_;
+    transport.maxQuantity = maxQuantity_;
+    return transport;
 }

@@ -15,6 +15,10 @@ const GrossContracts = sequelize.define('grossContracts', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     signedDate: {
         type: DataTypes.DATEONLY,
         allowNull: false

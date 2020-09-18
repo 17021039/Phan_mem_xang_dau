@@ -24,7 +24,7 @@ const Transports = sequelize.define('transports', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    name: {
+    maxQuantity: {
         type: DataTypes.INTEGER,
         allowNull: false
     }

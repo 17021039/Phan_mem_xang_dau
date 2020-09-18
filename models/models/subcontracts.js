@@ -16,6 +16,10 @@ const Subcontracts = sequelize.define('subcontracts', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     createdDate: {
         type: DataTypes.DATEONLY,
         allowNull: false
