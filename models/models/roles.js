@@ -27,25 +27,3 @@ const Roles = sequelize.define('roles', {
 
 
 module.exports = Roles;
-
-// tạo role
-module.exports.created = (roleID_, permission_) => {
-  Roles.create({
-    roleID: roleID_,
-    permission: permission_
-  });
-}
-
-// tạo role bằng object
-module.exports.set = (role_ = {}) => {
-  Roles.create(role_);
-}
-
-  // CÁC HÀM LẤY CỦA ROLE
-
-// lấy tất cả role (quyền, loại người dùng) theo yêu cầu
-module.exports.get = (filter = {}) => {
-  return Roles.findAll({
-    where: filter
-  }).then(list => list.map(obj => obj.dataValues));
-}

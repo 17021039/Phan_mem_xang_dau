@@ -33,30 +33,5 @@ const Products = sequelize.define('products', {
   });
 
 
-
 module.exports = Products;
-
-// tạo product
-module.exports.created = (productID_, name_, unit_, price_) => {
-    Products.create({
-        productID: productID_,
-        name: name_,
-        unit: unit_,
-        price: price_
-    });
-}
-
-// tạo product bằng object
-module.exports.set = (product_ = {}) => {
-    Products.create(product_);
-}
-
-    // CÁC HÀM LẤY CỦA PRODUCT
-
-// lấy tất cả product (xăng) theo yêu cầu
-module.exports.get = (filter = {}) => {
-    return Products.findAll({
-        where: filter
-    }).then(list => list.map(obj => obj.dataValues));
-}
 

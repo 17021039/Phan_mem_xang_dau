@@ -2,14 +2,15 @@ const { Sequelize} = require('sequelize');
 
 const Bills = require('./models/bills.js');
 const Clients = require('./models/clients.js');
-const Contracts = require('./models/contracts.js');
-const CreditContracts = require('./models/creditContracts.js');
-const CreditDrivers = require('./models/creditDrivers.js');
+const GrossContracts = require('./models/grossContracts.js');
+const Subcontracts = require('./models/subcontracts.js');
+const ContractDrivers = require('./models/contractDrivers.js');
 const Drivers = require('./models/drivers.js');
 const GasStations = require('./models/gasStations.js');
 const Products = require('./models/products.js');
 const Roles = require('./models/roles.js');
 const Users = require('./models/users.js');
+const Transports = require('./models/transports.js');
 
 
 
@@ -25,8 +26,8 @@ module.exports.bills = () => {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
     });
-    Bills.belongsTo(Contracts, {
-        foreignKey: { name: "contractID"},
+    Bills.belongsTo(Transports, {
+        foreignKey: { name: "plate"},
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
     });
@@ -55,7 +56,7 @@ module.exports.clients = () => {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
     });
-    Clients.hasMany(Contracts, {
+    Clients.hasMany(GrossContracts, {
         foreignKey: { name: "clientID"},
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
@@ -65,58 +66,57 @@ module.exports.clients = () => {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
     });
-    Clients.hasMany(CreditContracts, {
-        foreignKey: { name: "clientID"},
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
-    });
     return Clients;
 }
 
-// hàm tạo các quan hệ của contract và xuất contract
-module.exports.contracts = () => {
-    Contracts.belongsTo(Clients, {
+// hàm tạo các quan hệ của gross contract và xuất gross contract
+module.exports.grossContracts = () => {
+    GrossContracts.belongsTo(Clients, {
         foreignKey: { name: "clientID"},
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
     });
-    Contracts.hasOne(CreditContracts, {
-        foreignKey: { name: "contractID"},
+    GrossContracts.hasMany(Subcontracts, {
+        foreignKey: { name: "grossContractID"},
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
     });
-    Contracts.belongsToMany(Drivers, {
-        through: "creditDrivers",
-        foreignKey: { name: "contractID" },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
-    });
-    Contracts.hasMany(Bills, {
-        foreignKey: { name: "contractID"},
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
-    });
-    return Contracts;
+    return GrossContracts;
 }
 
-// hàm tạo các quan hệ của credit contracts và xuất credit contracts
-module.exports.creditContracts = () => {
-    CreditContracts.belongsTo(Clients, {
-        foreignKey: { name: "clientID"},
+// hàm tạo các quan hệ của subcontracts và xuất subcontracts
+module.exports.subcontracts = () => {
+    Subcontracts.hasMany(ContractDrivers, {
+        foreignKey: { name: "subcontractID"},
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
     });
-    CreditContracts.belongsTo(Contracts, {
-        foreignKey: { name: "contractID"},
+    Subcontracts.belongsTo(GrossContracts, {
+        foreignKey: { name: "grossContractID"},
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
     });
-    return CreditContracts;
+    return Subcontracts;
 }
 
-// hàm tạo các quan hệ của credit drivers và xuất credit drivers
-module.exports.creditDrivers = () => {
-    return CreditDrivers;
+// hàm tạo các quan hệ của contract drivers và xuất contract drivers
+module.exports.contractDrivers = () => {
+    ContractDrivers.belongsTo(Drivers, {
+        foreignKey: { name: "driverID"},
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+    });
+    ContractDrivers.belongsTo(Transports, {
+        foreignKey: { name: "plate"},
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+    });
+    ContractDrivers.belongsTo(Subcontracts, {
+        foreignKey: { name: "subcontractID"},
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+    });
+    return ContractDrivers;
 }
 
 // hàm tạo các quan hệ của driver và xuất driver
@@ -131,9 +131,8 @@ module.exports.drivers = () => {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
     });
-    Drivers.belongsToMany(Contracts, {
-        through: "creditDrivers",
-        foreignKey: { name: "driverID" },
+    Drivers.hasMany(ContractDrivers, {
+        foreignKey: { name: "driverID"},
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
     });
@@ -203,4 +202,19 @@ module.exports.products = () => {
         onDelete: 'CASCADE'
     });
     return Products;
+}
+
+// hàm tạo các quan hệ của transport và xuất transport
+module.exports.transports = () => {
+    Transports.hasMany(ContractDrivers, {
+        foreignKey: { name: "plate"},
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+    });
+    Transports.hasMany(Bills, {
+        foreignKey: { name: "plate"},
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+    });
+    return Transports;
 }

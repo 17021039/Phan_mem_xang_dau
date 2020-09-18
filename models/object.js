@@ -1,9 +1,11 @@
-module.exports.bill = (billID_, driverID_, clientID_, contractID_, gasStationID_, productID_, quantity_, total_, transactionDate_, status_) => {
+
+// xuất object bill
+module.exports.bill = (billID_, driverID_, clientID_, plate_, gasStationID_, productID_, quantity_, total_, transactionDate_, status_) => {
     let bill = {};
     bill.billID = billID_;
     bill.driverID = driverID_;
     bill.clientID = clientID_;
-    bill.contractID = contractID_;
+    bill.plate = plate_;
     bill.gasStationID = gasStationID_;
     bill.productID = productID_;
     bill.quantity = quantity_;
@@ -13,6 +15,7 @@ module.exports.bill = (billID_, driverID_, clientID_, contractID_, gasStationID_
     return bill;
 }
 
+// xuất object client
 module.exports.client = (clientID_, name_, address_, taxID_, max_payment_limit_) => {
     let client = {};
     client.clientID = clientID_;
@@ -23,36 +26,46 @@ module.exports.client = (clientID_, name_, address_, taxID_, max_payment_limit_)
     return client;
 }
 
-module.exports.contract = (contractID_, signedDate_, clientID_, startDate_, expiredDate_, status_) => {
-    let contract = {};
-    contract.contractID = contractID_;
-    contract.clientID = clientID_;
-    contract.signedDate = signedDate_;
-    contract.startDate = startDate_;
-    contract.expiredDate = expiredDate_;
-    contract.status = status_;
-    return contract;
+// xuất object grossContract
+module.exports.grossContract = (grossContractID_, clientID_, signedDate_, startDate_, expiredDate_, debtCeiling_, status_) => {
+    let grossContract = {};
+    grossContract.grossContractID = grossContractID_;
+    grossContract.clientID = clientID_;
+    grossContract.signedDate = signedDate_;
+    grossContract.startDate = startDate_;
+    grossContract.expiredDate = expiredDate_;
+    grossContract.debtCeiling = debtCeiling_;
+    grossContract.status = status_;
+    return grossContract;
 }
 
-module.exports.creditContract = (clientID_, contractID_, debtCeiling_, creditRemain_) => {
-    let creditContract = {};
-    creditContract.clientID = clientID_;
-    creditContract.contractID = contractID_;
-    creditContract.debtCeiling = debtCeiling_;
-    creditContract.creditRemain = creditRemain_;
-    return creditContract;
+// xuất object subcontract
+module.exports.subcontract = (subcontractID_ , grossContractID_, createdDate_, startDate_, expiredDate_, debtCeiling_, creditRemain_, status_) => {
+    let subcontract = {};
+    subcontract.subontractID = subcontractID_;
+    subcontract.grossContractID = grossContractID_;
+    subcontract.signedDate = createdDate_;
+    subcontract.startDate = startDate_;
+    subcontract.expiredDate = expiredDate_;
+    subcontract.debtCeiling = debtCeiling_;
+    subcontract.creditRemain = creditRemain_;
+    subcontract.status = status_;
+    return subcontract;
 }
 
-module.exports.creditDriver = (driverID_, contractID_, creditLimit_, creditRemain_) => {
-    let creditDriver = {};
-    creditDriver.driverID = driverID_;
-    creditDriver.contractID = contractID_;
-    creditDriver.creditLimit = creditLimit_;
-    creditDriver.creditRemain = creditRemain_;
-    return creditDriver;
+// xuất object contractDriver
+module.exports.contractDriver = (driverID_, plate_, subcontractID_, creditLimit_, creditRemain_) => {
+    let contractDriver = {};
+    contractDriver.driverID = driverID_;
+    contractDriver.plate = plate_;
+    contractDriver.contractID = subcontractID_;
+    contractDriver.creditLimit = creditLimit_;
+    contractDriver.creditRemain = creditRemain_;
+    return contractDriver;
 }
 
-module.exports.driver = (driverID_, clientID_, name_, residentID_, avatar_, phone_, address_, plate_, status_) => {
+// xuất object driver
+module.exports.driver = (driverID_, clientID_, name_, residentID_, avatar_, phone_, address_, status_) => {
     let driver = {};
     driver.driverID = driverID_;
     driver.clientID = clientID_;
@@ -61,11 +74,11 @@ module.exports.driver = (driverID_, clientID_, name_, residentID_, avatar_, phon
     driver.avatar = avatar_;
     driver.phone = phone_;
     driver.address = address_;
-    driver.plate = plate_;
     driver.status = status_;
     return driver;
 }
 
+// xuất object gas station
 module.exports.gasStation = (gasStationID_, name_, address_, location_, workingTime_) => {
     let gasStation = {};
     gasStation.gasStationID = gasStationID_;
@@ -76,6 +89,7 @@ module.exports.gasStation = (gasStationID_, name_, address_, location_, workingT
     return gasStation;
 }
 
+// xuất object product
 module.exports.product = (productID_, name_, unit_, price_) => {
     let product = {};
     product.productID = productID_;
@@ -85,6 +99,7 @@ module.exports.product = (productID_, name_, unit_, price_) => {
     return product;
 }
 
+// xuất object role
 module.exports.role = (roleID_, permission_) => {
     let role = {};
     role.roleID = roleID_;
@@ -92,6 +107,7 @@ module.exports.role = (roleID_, permission_) => {
     return role;
 }
 
+// xuất object user
 module.exports.user = (userID_, username_, password_, roleID_) => {
     let user = {};
     user.userID = userID_;

@@ -36,30 +36,4 @@ const GasStations = sequelize.define('gasStations', {
   });
 
 
-
 module.exports = GasStations;
-
-// tạo gasStation
-module.exports.created = (gasStationID_, name_, address_, location_, workingTime_) => {
-    GasStations.create({
-        gasStationID: gasStationID_,
-        name: name_,
-        address: address_,
-        location: location_,
-        workingTime: workingTime_
-    });
-}
-
-// tạo gasStation bằng object
-module.exports.set = (gasStation_ = {}) => {
-    GasStations.create(gasStation_);
-}
-
-    // CÁC HÀM LẤY CỦA GAS STATION
-
-// lấy tất cả gas station (cửa hàng xăng dầu) theo yêu cầu
-module.exports.get = (filter = {}) => {
-    return GasStations.findAll({
-        where: filter
-    }).then(list => list.map(obj => obj.dataValues));
-}

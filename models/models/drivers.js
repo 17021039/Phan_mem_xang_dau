@@ -36,10 +36,6 @@ const Drivers = sequelize.define('drivers', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    plate: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
     status: {
         type: DataTypes.STRING,
         allowNull: false
@@ -55,32 +51,3 @@ const Drivers = sequelize.define('drivers', {
 
 
 module.exports = Drivers;
-
-// tạo drivers
-module.exports.created = (driverID_, clientID_, name_, residentID_, avatar_, phone_, address_, plate_, status_) => {
-    Drivers.create({
-        driverID: driverID_,
-        clientID: clientID_,
-        name: name_,
-        residentID: residentID_,
-        avatar: avatar_,
-        phone: phone_,
-        address: address_,
-        plate: plate_,
-        status: status_
-    });
-}
-
-// tạo drivers bằng object
-module.exports.set = (driver_ = {}) => {
-    Drivers.create(driver_);
-}
-
-    // CÁC HÀM LẤY CỦA DRIVER
-
-// lấy tất cả driver (tài xế) theo yêu cầu
-module.exports.get = (filter = {}) => {
-    return Drivers.findAll({
-        where: filter
-    }).then(list => list.map(obj => obj.dataValues));
-}
